@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  nginx:
+    build: ./nginx
+    container_name: nginx-container
+    ports:
+      - "80:80"
+    volumes:
+      - ./www/html:/var/www/html
+    depends_on:
+      - php
+
+  php:
+    build: ./php
+    container_name: php-container
+    expose:
+      - "9000"
+    volumes:
+      - ./www/html:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
