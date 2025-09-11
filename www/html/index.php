@@ -23,24 +23,24 @@ $conn->query("CREATE TABLE IF NOT EXISTS posts (
 // 投稿処理
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 新規投稿
-    if (!empty($_POST["content"]) && empty($_POST["edit_id"])) {
+    if (isset($_POST["content"]) && $_POST["content"] !== "" && (!isset($_POST["edit_id"]) || $_POST["edit_id"] === "")) {
         $content = $conn->real_escape_string($_POST["content"]);
-        $deadline = !empty($_POST["deadline"]) ? $conn->real_escape_string($_POST["deadline"]) : null;
+        $deadline = (isset($_POST["deadline"]) && $_POST["deadline"] !== "") ? $conn->real_escape_string($_POST["deadline"]) : null;
         $conn->query("INSERT INTO posts (content, deadline) VALUES ('$content', " . ($deadline ? "'$deadline'" : "NULL") . ")");
         header('Location: index.php');
         exit();
     }
     // 編集
-    if (!empty($_POST["edit_id"]) && !empty($_POST["content"])) {
+    if (isset($_POST["edit_id"]) && $_POST["edit_id"] !== "" && isset($_POST["content"]) && $_POST["content"] !== "") {
         $edit_id = intval($_POST["edit_id"]);
         $content = $conn->real_escape_string($_POST["content"]);
-        $deadline = !empty($_POST["deadline"]) ? $conn->real_escape_string($_POST["deadline"]) : null;
+        $deadline = (isset($_POST["deadline"]) && $_POST["deadline"] !== "") ? $conn->real_escape_string($_POST["deadline"]) : null;
         $conn->query("UPDATE posts SET content='$content', deadline=" . ($deadline ? "'$deadline'" : "NULL") . " WHERE id=$edit_id");
         header('Location: index.php');
         exit();
     }
     // 削除
-    if (!empty($_POST["delete_id"])) {
+    if (isset($_POST["delete_id"]) && $_POST["delete_id"] !== "") {
         $delete_id = intval($_POST["delete_id"]);
         $conn->query("DELETE FROM posts WHERE id=$delete_id");
         header('Location: index.php');
