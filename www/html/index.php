@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $edit_content = "";
 $edit_id = "";
 $edit_deadline = "";
-if (!empty($_GET["edit"])) {
+if (isset($_GET["edit"]) && $_GET["edit"] !== "") {
     $edit_id = intval($_GET["edit"]);
     $result = $conn->query("SELECT content, deadline FROM posts WHERE id=$edit_id");
     if ($row = $result->fetch_assoc()) {
@@ -63,7 +63,7 @@ if (!empty($_GET["edit"])) {
 
 // 並び替え機能の追加
 $order = 'created_at DESC'; // デフォルトは作成日が新しい順
-if (!empty($_GET['sort']) && $_GET['sort'] === 'deadline') {
+if (isset($_GET['sort']) && $_GET['sort'] === 'deadline') {
     $order = 'CASE WHEN deadline IS NULL THEN 1 ELSE 0 END, deadline ASC, created_at DESC';
 }
 ?>
