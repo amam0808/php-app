@@ -2,13 +2,13 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDoアプリ</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <div class="container" style="display: flex; gap: 32px; align-items: flex-start;">
         <div style="flex: 1; min-width: 220px;">
-            <h3>ToDo追加</h3>
             <?php render_todo_form($edit_content, $edit_deadline, $edit_id); ?>
         </div>
         <div style="flex: 2; min-width: 300px;">
