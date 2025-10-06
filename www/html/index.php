@@ -1,8 +1,15 @@
 <?php
+require_once 'lib/auth.php';
 require_once 'lib/db.php';
 require_once 'lib/todo_model.php';
 require_once 'lib/todo_form.php';
 require_once 'lib/todo_list.php';
+
+if (!is_logged_in()) {
+    // ログインフォーム表示
+    include 'templates/login.html';
+    exit();
+}
 
 create_table($conn);
 
