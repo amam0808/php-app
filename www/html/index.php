@@ -5,13 +5,21 @@ require_once 'lib/todo_model.php';
 require_once 'lib/todo_form.php';
 require_once 'lib/todo_list.php';
 
-if (!is_logged_in()) {
-    // ログインフォーム表示
-    include 'templates/login.html';
-    exit();
-}
+// if (!is_logged_in()) {
+//     // ログインフォーム表示
+//     include 'templates/login.html';
+//     exit();
+// }
 
 create_table($conn);
+
+// ユーザー名とログアウトボタン表示
+if (isset($_SESSION['id'])) {
+    echo '<div class="header-user">';
+    echo 'ユーザー: ' . htmlspecialchars($_SESSION['name'], ENT_QUOTES, 'UTF-8');
+    echo ' <a href="logout.php" class="logout-link">ログアウト</a>';
+    echo '</div>';
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($_POST["content"]) && empty($_POST["edit_id"])) {
