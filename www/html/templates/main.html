@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoアプリ</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <?php if (is_logged_in()): ?>
+    <div class="header-user">
+        ユーザー: <?php echo htmlspecialchars($_SESSION['username']); ?>
+        <a href="logout.php" class="logout-link">ログアウト</a>
+    </div>
+    <?php endif; ?>
+    <div class="container" style="display: flex; gap: 32px; align-items: flex-start;">
+        <div style="flex: 1; min-width: 220px;">
+            <?php render_todo_form($edit_content, $edit_deadline, $edit_id); ?>
+        </div>
+        <div style="flex: 2; min-width: 300px;">
+            <h3>ToDoリスト</h3>
+            <div class="sort-links">
+                <a href="index.php?sort=deadline">締め切り近い順</a> |
+                <a href="index.php?sort=created_at">作成日が新しい順</a>
+            </div>
+            <div style="max-height: 400px; overflow-y: auto; background: #fff; border-radius: 10px; border: 1px solid #f3e7d3; padding: 8px 0;">
+                <?php
+                $today = date('Y-m-d');
+                $result = get_todos($conn, $order);
+                render_todo_list($result, $today);
+                $conn->close();
+                ?>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
