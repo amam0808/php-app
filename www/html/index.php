@@ -13,14 +13,6 @@ require_once 'lib/todo_list.php';
 
 create_table($conn);
 
-// ユーザー名とログアウトボタン表示
-if (isset($_SESSION['id'])) {
-    echo '<div class="header-user">';
-    echo 'ユーザー: ' . htmlspecialchars($_SESSION['name'], ENT_QUOTES, 'UTF-8');
-    echo ' <a href="logout.php" class="logout-link">ログアウト</a>';
-    echo '</div>';
-}
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["content"]) && !isset($_POST["edit_id"])) {
         add_todo($conn, $_POST["content"], isset($_POST["deadline"]) ? $_POST["deadline"] : "");
